@@ -208,12 +208,87 @@ class CustomMarkdownConverter {
       linkStyle: "inlined",
       ...options,
     };
+
+    // Unicode normalization map
+    this.unicodeNormalizeMap = {
+      // Standard & Non-breaking Spaces
+      "\u00A0": " ", // NBSP
+      "\u2003": " ", // Em space
+      "\u2002": " ", // En space
+      "\u2009": " ", // Thin space
+      "\u200A": "", // Hair space
+      "\u200B": "", // Zero width space
+      "\u200C": "", // Zero width non-joiner
+      "\u200D": "", // Zero width joiner
+      "\u3000": " ", // Ideographic space
+      "\u202F": " ", // Narrow NBSP
+      "\u205F": " ", // Medium math space
+
+      // Em-dashes, En-dashes, Figure Dashes, Minus, Horizontal Bar
+      "\u2012": "-", // Figure dash
+      "\u2013": "-", // En dash
+      "\u2014": "-", // Em dash
+      "\u2015": "-", // Horizontal bar
+      "\u2212": "-", // Minus sign
+
+      // Smart Quotes (single & double)
+      "\u2018": "'", // Left single quote
+      "\u2019": "'", // Right single quote / apostrophe
+      "\u201A": "'", // Single low-9 quote
+      "\u201B": "'", // Single high-reversed-9 quote
+      "\u201C": '"', // Left double quote
+      "\u201D": '"', // Right double quote
+      "\u201E": '"', // Double low-9 quote
+      "\u201F": '"', // Double high-reversed-9 quote
+      "\u2032": "'", // Prime
+      "\u2033": '"', // Double prime
+      "\u2035": "'", // Reversed prime
+      "\u2036": '"', // Reversed double prime
+      "\u00AB": '"', // Left angle quote
+      "\u00BB": '"', // Right angle quote
+
+      // Ellipsis
+      "\u2026": "...", // Ellipsis
+
+      // Bullets
+      "\u2022": "*", // Bullet
+      "\u00B7": "*", // Middle dot
+    };
+  }
+
+  normalizeUnicode(text) {
+    // Pattern for all the Unicode characters we want to normalize
+    const pattern =
+      /[\u00A0\u2002\u2003\u2009\u200A\u200B\u200C\u200D\u202F\u205F\u3000\u2012-\u2015\u2212\u2018-\u201F\u2032-\u2036\u00AB\u00BB\u2026\u2022\u00B7\uFF01-\uFF5E]/g;
+    return text.replace(
+      pattern,
+      (match) => this.unicodeNormalizeMap[match] || match
+    );
+  }
+
+  normalizeFullWidthPunctuation(text) {
+    // Convert full-width punctuation (U+FF01–U+FF5E) to ASCII
+    return text.replace(/[\uFF01-\uFF5E]/g, (ch) =>
+      String.fromCharCode(ch.charCodeAt(0) - 0xfee0)
+    );
+  }
+
+  fullNormalizer(text) {
+    return this.normalizeFullWidthPunctuation(this.normalizeUnicode(text));
   }
 
   convert(html) {
     const tempDiv = document.createElement("div");
     tempDiv.innerHTML = html;
     this.cleanupRenderedMarkdown(tempDiv);
+
+    // Get the text content and normalize Unicode characters
+    let normalizedHtml = tempDiv.innerHTML;
+    normalizedHtml = this.fullNormalizer(normalizedHtml);
+
+    // Re-parse the normalized HTML
+    tempDiv.innerHTML = normalizedHtml;
+
     return this.processNode(tempDiv).trim();
   }
 
@@ -246,7 +321,8 @@ class CustomMarkdownConverter {
 
   processNode(node) {
     if (node.nodeType === Node.TEXT_NODE) {
-      return node.textContent;
+      // Apply Unicode normalization to text nodes
+      return this.fullNormalizer(node.textContent);
     }
 
     if (node.nodeType !== Node.ELEMENT_NODE) {
@@ -644,11 +720,10 @@ const App = () => {
         <h1
           style={{ margin: "0 0 10px 0", color: "#0366d6", fontSize: "2rem" }}
         >
-          Clipboard2MD
+          Rendered Markdown to Markdown Converter
         </h1>
         <p style={{ margin: 0, color: "#586069", fontSize: "1.1rem" }}>
-          Convert copied HTML content into clean, readable Markdown instantly.
-          Paste from any rich text source and get Markdown output in one click.
+          Convert HTML from rendered markdown back to clean markdown source
         </p>
       </header>
 
