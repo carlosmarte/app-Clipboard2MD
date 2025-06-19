@@ -1,0 +1,408 @@
+/* App.css */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+    sans-serif;
+  background-color: #f6f8fa;
+  color: #24292e;
+}
+
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-header {
+  background: #fff;
+  padding: 20px;
+  border-bottom: 1px solid #e1e4e8;
+  text-align: center;
+}
+
+.app-header h1 {
+  margin: 0 0 10px 0;
+  color: #0366d6;
+  font-size: 2rem;
+}
+
+.app-header p {
+  margin: 0;
+  color: #586069;
+  font-size: 1.1rem;
+}
+
+.conversion-options {
+  background: #fff;
+  padding: 15px 20px;
+  border-bottom: 1px solid #e1e4e8;
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.conversion-options label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.conversion-options input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+}
+
+.main-interface {
+  flex: 1;
+  background: #fff;
+  margin: 0;
+  height: 60vh;
+}
+
+.allotment-container {
+  height: 100%;
+}
+
+.allotment-container > .split-view-view {
+  position: relative;
+}
+
+.allotment-container > .split-view-view {
+  position: relative;
+}
+
+/* Allotment splitter styling */
+.allotment-container .split-view-view > .sash {
+  background-color: #e1e4e8;
+  transition: background-color 0.2s;
+}
+
+.allotment-container .split-view-view > .sash:hover {
+  background-color: #0366d6;
+}
+
+.allotment-container .split-view-view > .sash.disabled {
+  background-color: #f6f8fa;
+  cursor: not-allowed;
+}
+
+.input-panel,
+.output-panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 0;
+}
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  border-bottom: 1px solid #e1e4e8;
+  background: #fafbfc;
+}
+
+.panel-header h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.header-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.input-textarea,
+.output-textarea {
+  flex: 1;
+  border: none;
+  padding: 20px;
+  font-family: "Monaco", "Menlo", "Ubuntu Mono", monospace;
+  font-size: 14px;
+  line-height: 1.5;
+  resize: none;
+  outline: none;
+  background: #fff;
+}
+
+.input-textarea:focus,
+.output-textarea:focus {
+  background: #fafbfc;
+}
+
+.output-textarea {
+  background: #f6f8fa;
+  color: #24292e;
+}
+
+.panel-footer {
+  padding: 15px 20px;
+  border-top: 1px solid #e1e4e8;
+  background: #fafbfc;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.convert-btn {
+  background: #0366d6;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.convert-btn:hover:not(:disabled) {
+  background: #0256cc;
+}
+
+.convert-btn:disabled {
+  background: #94a3b8;
+  cursor: not-allowed;
+}
+
+.clear-btn,
+.copy-btn,
+.load-btn {
+  background: #f6f8fa;
+  color: #24292e;
+  border: 1px solid #d0d7de;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+
+.clear-btn:hover:not(:disabled),
+.copy-btn:hover:not(:disabled),
+.load-btn:hover {
+  background: #f3f4f6;
+  border-color: #afb8c1;
+}
+
+.clear-btn:disabled,
+.copy-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.export-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.export-btn {
+  background: #28a745;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.export-btn:hover:not(:disabled) {
+  background: #218838;
+}
+
+.export-btn:disabled {
+  background: #94a3b8;
+  cursor: not-allowed;
+}
+
+.export-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: white;
+  border: 1px solid #d0d7de;
+  border-radius: 6px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  z-index: 1000;
+  min-width: 150px;
+}
+
+.export-dropdown:hover .export-menu {
+  display: block;
+}
+
+.export-menu button {
+  display: block;
+  width: 100%;
+  padding: 8px 12px;
+  border: none;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.export-menu button:hover {
+  background: #f6f8fa;
+}
+
+.char-count {
+  font-size: 12px;
+  color: #656d76;
+}
+
+.conversion-history {
+  background: #fff;
+  border-top: 1px solid #e1e4e8;
+  padding: 20px;
+}
+
+.conversion-history h3 {
+  margin: 0 0 15px 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.history-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  border: 1px solid #e1e4e8;
+  border-radius: 6px;
+  background: #fafbfc;
+}
+
+.history-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.history-preview {
+  font-size: 12px;
+  margin-bottom: 4px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.history-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.history-date {
+  font-size: 11px;
+  color: #656d76;
+}
+
+.app-footer {
+  background: #24292e;
+  color: #fff;
+  padding: 30px 20px;
+}
+
+.tips h4 {
+  margin: 0 0 15px 0;
+  color: #f6f8fa;
+}
+
+.tips ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.tips li {
+  margin-bottom: 8px;
+  line-height: 1.5;
+}
+
+.tips strong {
+  color: #79b8ff;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .conversion-options {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .panel-header {
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  .header-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  .allotment-container {
+    height: auto;
+  }
+
+  .allotment-container > .split-view-view {
+    position: static !important;
+    height: auto !important;
+  }
+
+  .main-interface {
+    height: auto;
+  }
+
+  .input-panel,
+  .output-panel {
+    height: 300px;
+  }
+}
+
+/* Loading states */
+.convert-btn:disabled {
+  position: relative;
+  overflow: hidden;
+}
+
+.convert-btn:disabled::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
