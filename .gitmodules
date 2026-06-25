@@ -1,0 +1,4 @@
+[submodule "Project-agent-personas"]
+	path = Project-agent-personas
+	url = git@github.com:thinkeloquent/Project-agent-personas.git
+	branch = main

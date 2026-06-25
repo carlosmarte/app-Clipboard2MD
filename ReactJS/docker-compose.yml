@@ -1,0 +1,18 @@
+services:
+  app:
+    build: .
+    image: clipboard2md
+    container_name: clipboard2md
+    ports:
+      - "60001:60001"
+    environment:
+      PORT: "60001"
+      DB_PATH: /data/clipboard2md.db
+    volumes:
+      # Persist the SQLite database (pasted inputs + generated markdown)
+      # across container rebuilds and restarts.
+      - clipboard2md-data:/data
+    restart: unless-stopped
+
+volumes:
+  clipboard2md-data:
